@@ -1,0 +1,14 @@
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+{% if quotes %}
+    <ul>
+        {% for quote in quotes %}
+            <li>{{ quote.author }}: {{ quote.text }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No quotes found.</p>
+{% endif %}
