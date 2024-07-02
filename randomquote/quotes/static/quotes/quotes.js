@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial fetch of quotes on page load
     fetchQuotes();
 
-    // Registration and Login functionality using jQuery
+    // Function to handle registration
     $('#registerBtn').click(function() {
         var firstName = $('#firstName').val();
         var lastName = $('#lastName').val();
@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#loginModal').modal('show');
     });
 
+    // Function to handle login
     $('#loginBtn').click(function() {
         var username = $('#username').val();
         var password = $('#password').val();
@@ -139,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#loggedInUsername').text(username);
     });
 
+    // Function to handle logout
     $('#logoutButton').click(function() {
         $('#imageAndUsername').hide();
         $('#loginButtonContainer').show();
@@ -146,45 +148,46 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#password').val('');
     });
 
-    const registerForm = document.getElementById("registerForm");
-    const regUsername = document.getElementById("regUsername");
-    const regPassword = document.getElementById("regPassword");
-    const reenterPassword = document.getElementById("reenterPassword");
-    const registerBtn = document.getElementById("registerBtn");
+    document.addEventListener("DOMContentLoaded", function () {
+        const registerForm = document.getElementById("registerForm");
+        const regUsername = document.getElementById("regUsername");
+        const regPassword = document.getElementById("regPassword");
+        const reenterPassword = document.getElementById("reenterPassword");
+        const registerBtn = document.getElementById("registerBtn");
 
-    const loginForm = document.getElementById("loginForm");
-    const loginUsername = document.getElementById("loginUsername");
-    const loginPassword = document.getElementById("loginPassword");
-    const loginBtn = document.getElementById("loginBtn");
+        const loginForm = document.getElementById("loginForm");
+        const loginUsername = document.getElementById("loginUsername");
+        const loginPassword = document.getElementById("loginPassword");
+        const loginBtn = document.getElementById("loginBtn");
 
-    let registeredUser = null;
+        let registeredUser = null;
 
-    registerBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        if (regPassword.value !== reenterPassword.value) {
-            alert("Passwords do not match!");
-        } else {
-            registeredUser = {
-                username: regUsername.value,
-                password: regPassword.value
-            };
-            alert("Registration successful!");
-            $('#registerModal').modal('hide');
-            $('#loginmodal').modal('show');
-        }
-    });
+        registerBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (regPassword.value !== reenterPassword.value) {
+                alert("Passwords do not match!");
+            } else {
+                registeredUser = {
+                    username: regUsername.value,
+                    password: regPassword.value
+                };
+                alert("Registration successful!");
+                $('#registerModal').modal('hide');
+            }
+        });
 
-    loginBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        if (registeredUser === null) {
-            alert("No registered user found. Please register first.");
-        } else if (loginUsername.value !== registeredUser.username || loginPassword.value !== registeredUser.password) {
-            alert("Incorrect username or password!");
-        } else {
-            alert("Login successful!");
-            $('#loginModal').modal('hide');
-            document.getElementById("loggedInUsername").textContent = registeredUser.username;
-            document.getElementById("imageAndUsername").style.display = "block";
-        }
+        loginBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (registeredUser === null) {
+                alert("No registered user found. Please register first.");
+            } else if (loginUsername.value !== registeredUser.username || loginPassword.value !== registeredUser.password) {
+                alert("Incorrect username or password!");
+            } else {
+                alert("Login successful!");
+                $('#loginModal').modal('hide');
+                document.getElementById("loggedInUsername").textContent = registeredUser.username;
+                document.getElementById("imageAndUsername").style.display = "block";
+            }
+        });
     });
 });
