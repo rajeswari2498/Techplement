@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Register</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="registerForm" method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter first name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Enter last name">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" class="form-control" id="regPassword" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="reenterPassword">Re-enter Password</label>
+                    <input type="password" class="form-control" id="reenterPassword" name="reenter_password" placeholder="Re-enter password">
+                </div>
+                <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Submit form via AJAX
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Perform AJAX submission
+        fetch(registerForm.action, {
+            method: 'POST',
+            body: new FormData(registerForm),
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())  // Assuming response is JSON
+        .then(data => {
+            // Check if registration was successful
+            if (data.success) {
+                // Close register modal if needed
+                $('#registerModal').modal('hide');  // Assuming you're using jQuery
+                // Display login modal
+                $('#loginModal').modal('show');  // Assuming you're using jQuery
+            } else {
+                alert('Registration failed. Please try again.');  // Handle error case
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+{% endblock %}
