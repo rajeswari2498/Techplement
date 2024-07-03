@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to fetch quotes from JSON file
     function fetchQuotes() {
-        const quotesJsonUrl = '/static/quotes/quotes.json'; // Adjust path as per your project setup
+        const quotesJsonUrl = 'quotes.json'; // Adjust path as per your project setup
         fetch(quotesJsonUrl)
             .then(response => response.json())
             .then(data => {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial fetch of quotes on page load
     fetchQuotes();
 
-    // Registration and Login functionality using jQuery
+    // Event listener for registration form submission
     $('#registerBtn').click(function() {
         var firstName = $('#firstName').val();
         var lastName = $('#lastName').val();
@@ -117,11 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Assuming registration is successful, close modal
+        // Assuming registration is successful (simulate success for now)
+        alert('Registration successful!'); // You can remove this alert in production
         $('#registerModal').modal('hide');
         $('#loginModal').modal('show');
     });
 
+    // Event listener for login form submission
     $('#loginBtn').click(function() {
         var username = $('#username').val();
         var password = $('#password').val();
@@ -132,59 +134,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Assuming login is successful, update UI
+        // Assuming login is successful (simulate success for now)
+        alert('Login successful!'); // You can remove this alert in production
         $('#loginModal').modal('hide');
         $('#loginButtonContainer').hide();
         $('#imageAndUsername').show();
         $('#loggedInUsername').text(username);
     });
 
+    // Event listener for logout button
     $('#logoutButton').click(function() {
         $('#imageAndUsername').hide();
         $('#loginButtonContainer').show();
         $('#username').val('');
         $('#password').val('');
-    });
-
-    const registerForm = document.getElementById("registerForm");
-    const regUsername = document.getElementById("regUsername");
-    const regPassword = document.getElementById("regPassword");
-    const reenterPassword = document.getElementById("reenterPassword");
-    const registerBtn = document.getElementById("registerBtn");
-
-    const loginForm = document.getElementById("loginForm");
-    const loginUsername = document.getElementById("loginUsername");
-    const loginPassword = document.getElementById("loginPassword");
-    const loginBtn = document.getElementById("loginBtn");
-
-    let registeredUser = null;
-
-    registerBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        if (regPassword.value !== reenterPassword.value) {
-            alert("Passwords do not match!");
-        } else {
-            registeredUser = {
-                username: regUsername.value,
-                password: regPassword.value
-            };
-            alert("Registration successful!");
-            $('#registerModal').modal('hide');
-            $('#loginmodal').modal('show');
-        }
-    });
-
-    loginBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        if (registeredUser === null) {
-            alert("No registered user found. Please register first.");
-        } else if (loginUsername.value !== registeredUser.username || loginPassword.value !== registeredUser.password) {
-            alert("Incorrect username or password!");
-        } else {
-            alert("Login successful!");
-            $('#loginModal').modal('hide');
-            document.getElementById("loggedInUsername").textContent = registeredUser.username;
-            document.getElementById("imageAndUsername").style.display = "block";
-        }
     });
 });
