@@ -12,23 +12,27 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="registerForm" method="POST" action="{% url 'register' %}">
+            <form id="registerForm" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter first name">
+                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter first name" required>
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Enter last name">
+                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Enter last name" required>
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" class="form-control" id="regUsername" name="username" placeholder="Enter username" required>
                 </div>
                 <div class="form-group">
                     <label for="regPassword">Password</label>
-                    <input type="password" class="form-control" id="regPassword" name="password" placeholder="Password">
+                    <input type="password" class="form-control" id="regPassword" name="password" placeholder="Password" required>
                 </div>
                 <div class="form-group">
                     <label for="reenterPassword">Re-enter Password</label>
-                    <input type="password" class="form-control" id="reenterPassword" name="reenter_password" placeholder="Re-enter password">
+                    <input type="password" class="form-control" id="reenterPassword" name="reenter_password" placeholder="Re-enter password" required>
                 </div>
                 <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
             </form>
@@ -38,7 +42,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Submit form via AJAX
     const registerForm = document.getElementById('registerForm');
     registerForm.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent default form submission
@@ -51,16 +54,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 'X-CSRFToken': '{{ csrf_token }}'
             }
         })
-        .then(response => response.json())  // Assuming response is JSON
+        .then(response => response.json())
         .then(data => {
-            // Check if registration was successful
             if (data.success) {
-                // Close register modal if needed
-                $('#registerModal').modal('hide');  // Assuming you're using jQuery
-                // Display login modal
-                $('#loginModal').modal('show');  // Assuming you're using jQuery
+                // Registration successful, close register modal and show login modal
+                $('#registerModal').modal('hide');
+                $('#loginModal').modal('show');
             } else {
-                alert('Registration failed. Please try again.');  // Handle error case
+                // Registration failed, handle error (you can customize this part)
+                alert('Registration failed. Please try again.');
             }
         })
         .catch(error => {
