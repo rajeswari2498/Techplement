@@ -11,34 +11,82 @@ document.addEventListener('DOMContentLoaded', function() {
     let quotes = []; // Array to hold all quotes
     let filteredQuotes = []; // Array to hold filtered quotes
 
-    const quotesJsonUrl = document.currentScript.getAttribute('data-quotes-url');
-
+    // Function to fetch quotes from JSON file
     function fetchQuotes() {
+        const quotesJsonUrl = 'quotes.json'; // Adjust path as per your project setup
         fetch(quotesJsonUrl)
             .then(response => response.json())
             .then(data => {
                 quotes = data.quotes;
-                filteredQuotes = [...quotes];
-                generateRandomQuote();
+                filteredQuotes = [...quotes]; // Initialize filteredQuotes with all quotes
+                generateRandomQuote(); // Display initial random quote
             })
             .catch(error => {
                 console.error('Error fetching quotes:', error);
             });
     }
 
+    // Function to generate a random quote
     function generateRandomQuote() {
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
         const randomQuote = filteredQuotes[randomIndex];
+        
+        // Update the quote and author elements
         quoteElement.textContent = `"${randomQuote.quote}"`;
         authorElement.textContent = randomQuote.author;
     }
 
+    // Event listener for New Quote button
+    newQuoteButton.addEventListener('click', function() {
+        generateRandomQuote(); // Generate random quote when button is clicked
+    });
+
+    // Event listener for Volume Up button
+    volumeUpButton.addEventListener('click', function() {
+        const quoteText = `${quoteElement.textContent.trim()} by - ${authorElement.textContent}`;
+        speakQuote(quoteText);
+    });
+
+    // Event listener for Copy button
+    copyButton.addEventListener('click', function() {
+        const quoteText = `${quoteElement.textContent.trim()} - ${authorElement.textContent}`;
+        copyToClipboard(quoteText);
+    });
+
+    // Event listener for Twitter button
+    twitterButton.addEventListener('click', function() {
+        const quoteText = encodeURIComponent(`${quoteElement.textContent.trim()} - ${authorElement.textContent}`);
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText}`;
+        window.open(twitterUrl, '_blank');
+    });
+
+    // Event listener for Search form submission
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const query = searchInput.value.trim().toLowerCase();
+
+        if (query === '') {
+            filteredQuotes = [...quotes]; // Reset filteredQuotes to all quotes if query is empty
+        } else {
+            filteredQuotes = quotes.filter(quote => quote.author.toLowerCase().includes(query));
+        }
+
+        if (filteredQuotes.length > 0) {
+            generateRandomQuote(); // Display a random quote from filteredQuotes
+        } else {
+            quoteElement.textContent = 'No quotes found.';
+            authorElement.textContent = '';
+        }
+    });
+
+    // Function to speak the quote
     function speakQuote(text) {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         synth.speak(utterance);
     }
 
+    // Function to copy text to clipboard
     function copyToClipboard(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
@@ -48,48 +96,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
     }
 
-    newQuoteButton.addEventListener('click', generateRandomQuote);
+    // Initial fetch of quotes on page load
+    fetchQuotes();
 
-    volumeUpButton.addEventListener('click', function() {
-        const quoteText = `${quoteElement.textContent.trim()} by - ${authorElement.textContent}`;
-        speakQuote(quoteText);
-    });
-
-    copyButton.addEventListener('click', function() {
-        const quoteText = `${quoteElement.textContent.trim()} - ${authorElement.textContent}`;
-        copyToClipboard(quoteText);
-    });
-
-    twitterButton.addEventListener('click', function() {
-        const quoteText = encodeURIComponent(`${quoteElement.textContent.trim()} - ${authorElement.textContent}`);
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText}`;
-        window.open(twitterUrl, '_blank');
-    });
-
-    searchForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const query = searchInput.value.trim().toLowerCase();
-
-        if (query === '') {
-            filteredQuotes = [...quotes];
-        } else {
-            filteredQuotes = quotes.filter(quote => quote.author.toLowerCase().includes(query));
-        }
-
-        if (filteredQuotes.length > 0) {
-            generateRandomQuote();
-        } else {
-            quoteElement.textContent = 'No quotes found.';
-            authorElement.textContent = '';
-        }
-    });
-
+    // Event listener for registration form submission
     $('#registerBtn').click(function() {
         var firstName = $('#firstName').val();
         var lastName = $('#lastName').val();
         var password = $('#regPassword').val();
         var reenterPassword = $('#reenterPassword').val();
 
+        // Basic validation
         if (firstName === '' || lastName === '' || password === '' || reenterPassword === '') {
             alert('Please fill in all fields.');
             return;
@@ -100,33 +117,36 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        alert('Registration successful!');
+        // Assuming registration is successful (simulate success for now)
+        alert('Registration successful!'); // You can remove this alert in production
         $('#registerModal').modal('hide');
         $('#loginModal').modal('show');
     });
 
+    // Event listener for login form submission
     $('#loginBtn').click(function() {
         var username = $('#username').val();
         var password = $('#password').val();
 
+        // Basic validation
         if (username === '' || password === '') {
             alert('Please fill in all fields.');
             return;
         }
 
-        alert('Login successful!');
+        // Assuming login is successful (simulate success for now)
+        alert('Login successful!'); // You can remove this alert in production
         $('#loginModal').modal('hide');
         $('#loginButtonContainer').hide();
         $('#imageAndUsername').show();
         $('#loggedInUsername').text(username);
     });
 
+    // Event listener for logout button
     $('#logoutButton').click(function() {
         $('#imageAndUsername').hide();
         $('#loginButtonContainer').show();
         $('#username').val('');
         $('#password').val('');
     });
-
-    fetchQuotes();
 });
