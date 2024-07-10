@@ -186,13 +186,13 @@ body {
 }
 
 .form-inline {
-    display: flex;
+    display: right;
     justify-content: center;
     margin-left:60%
 }
 
 .form-inline .form-control {
-    width: 200px; /* Adjust width as needed */
+    width: 300px; /* Adjust width as needed */
 }
 
 .form-inline .btn {

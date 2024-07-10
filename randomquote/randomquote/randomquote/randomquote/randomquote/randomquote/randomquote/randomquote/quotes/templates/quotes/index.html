@@ -16,70 +16,71 @@
     <button type="button" class="btn btn-secondary mt-3 ml-3" data-toggle="modal" data-target="#registerModal">Register</button>
 </div>
 
-<div class="container mt-3">
+<div class="container mt-8">
     <form class="form-inline justify-content-center">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
 </div>
-
 <!-- Registration Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="regUsername">Username</label>
-                        <input type="text" class="form-control" id="regUsername" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="regPassword">Password</label>
-                        <input type="password" class="form-control" id="regPassword" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reenterPassword">Re-enter Password</label>
-                        <input type="password" class="form-control" id="reenterPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="regUsername">Username</label>
+              <input type="text" class="form-control" id="regUsername" required>
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <input type="password" class="form-control" id="regPassword" required>
+            </div>
+            <div class="form-group">
+              <label for="reenterPassword">Re-enter Password</label>
+              <input type="password" class="form-control" id="reenterPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
-
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  </div>
+  
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="loginUsername">Username</label>
-                        <input type="text" class="form-control" id="loginUsername" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" class="form-control" id="loginPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginUsername">Username</label>
+              <input type="text" class="form-control" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  
+
 {% if user.is_authenticated %}
 <div class="container mt-3" id="imageAndUsername">
     <img src="{% static 'quotes/img1.jpg' %}" alt="User Icon" style="width: 50px; height: 50px; margin-right: 5px;">

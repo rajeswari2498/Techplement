@@ -7,38 +7,96 @@ document.addEventListener('DOMContentLoaded', function() {
     const twitterButton = document.getElementById('twitter-share');
     const searchForm = document.querySelector('form');
     const searchInput = document.querySelector('input[type="search"]');
-    
-    let quotes = []; // Array to hold all quotes
+    const loginButtonContainer = document.getElementById('loginButtonContainer');
+    const imageAndUsername = document.getElementById('imageAndUsername');
+    const loggedInUsername = document.getElementById('loggedInUsername');
+    const logoutButton = document.getElementById('logoutButton');
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+    const userIcon = document.getElementById('userIcon');
+
+    let quotes = []; // Array to hold quotes
     let filteredQuotes = []; // Array to hold filtered quotes
+    let registeredUser = null; // Variable to hold user information
 
-    const quotesJsonUrl = document.currentScript.getAttribute('data-quotes-url');
-
+    // Function to fetch quotes from JSON file
     function fetchQuotes() {
-        fetch(quotesJsonUrl)
+        fetch('/static/quotes/quotes.json')
             .then(response => response.json())
             .then(data => {
                 quotes = data.quotes;
-                filteredQuotes = [...quotes];
-                generateRandomQuote();
+                generateRandomQuote(); // Display initial quote
             })
             .catch(error => {
                 console.error('Error fetching quotes:', error);
             });
     }
 
+    // Function to generate a random quote
     function generateRandomQuote() {
-        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-        const randomQuote = filteredQuotes[randomIndex];
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        
+        // Update the quote and author elements
         quoteElement.textContent = `"${randomQuote.quote}"`;
         authorElement.textContent = randomQuote.author;
     }
 
+    // Initial fetch of quotes on page load
+    fetchQuotes();
+
+    // Event listener for New Quote button
+    newQuoteButton.addEventListener('click', generateRandomQuote);
+
+    // Event listener for Volume Up button
+    volumeUpButton.addEventListener('click', function() {
+        const quoteText = `${quoteElement.textContent.trim()} by - ${authorElement.textContent}`;
+        speakQuote(quoteText);
+    });
+
+    // Event listener for Copy button
+    copyButton.addEventListener('click', function() {
+        const quoteText = `${quoteElement.textContent.trim()} - ${authorElement.textContent}`;
+        copyToClipboard(quoteText);
+    });
+
+    // Event listener for Twitter button
+    twitterButton.addEventListener('click', function() {
+        const quoteText = encodeURIComponent(`${quoteElement.textContent.trim()} - ${authorElement.textContent}`);
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText}`;
+        window.open(twitterUrl, '_blank');
+    });
+
+    // Event listener for Search form submission
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const query = searchInput.value.trim().toLowerCase();
+
+        if (query === '') {
+            filteredQuotes = [...quotes]; // Reset filteredQuotes to all quotes if query is empty
+        } else {
+            filteredQuotes = quotes.filter(quote => quote.author.toLowerCase().includes(query));
+        }
+
+        if (filteredQuotes.length > 0) {
+            const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+            const randomQuote = filteredQuotes[randomIndex];
+            quoteElement.textContent = `"${randomQuote.quote}"`;
+            authorElement.textContent = randomQuote.author;
+        } else {
+            quoteElement.textContent = 'No quotes found.';
+            authorElement.textContent = '';
+        }
+    });
+
+    // Function to speak the quote
     function speakQuote(text) {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         synth.speak(utterance);
     }
 
+    // Function to copy text to clipboard
     function copyToClipboard(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
@@ -48,85 +106,69 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(textarea);
     }
 
-    newQuoteButton.addEventListener('click', generateRandomQuote);
+    // Event listener for Register form submission
+    registerForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const regPassword = document.getElementById('regPassword').value;
+        const reenterPassword = document.getElementById('reenterPassword').value;
 
-    volumeUpButton.addEventListener('click', function() {
-        const quoteText = `${quoteElement.textContent.trim()} by - ${authorElement.textContent}`;
-        speakQuote(quoteText);
-    });
-
-    copyButton.addEventListener('click', function() {
-        const quoteText = `${quoteElement.textContent.trim()} - ${authorElement.textContent}`;
-        copyToClipboard(quoteText);
-    });
-
-    twitterButton.addEventListener('click', function() {
-        const quoteText = encodeURIComponent(`${quoteElement.textContent.trim()} - ${authorElement.textContent}`);
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText}`;
-        window.open(twitterUrl, '_blank');
-    });
-
-    searchForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const query = searchInput.value.trim().toLowerCase();
-
-        if (query === '') {
-            filteredQuotes = [...quotes];
-        } else {
-            filteredQuotes = quotes.filter(quote => quote.author.toLowerCase().includes(query));
-        }
-
-        if (filteredQuotes.length > 0) {
-            generateRandomQuote();
-        } else {
-            quoteElement.textContent = 'No quotes found.';
-            authorElement.textContent = '';
-        }
-    });
-
-    $('#registerBtn').click(function() {
-        var firstName = $('#firstName').val();
-        var lastName = $('#lastName').val();
-        var password = $('#regPassword').val();
-        var reenterPassword = $('#reenterPassword').val();
-
-        if (firstName === '' || lastName === '' || password === '' || reenterPassword === '') {
+        // Basic validation
+        if (firstName === '' || lastName === '' || regPassword === '' || reenterPassword === '') {
             alert('Please fill in all fields.');
             return;
         }
 
-        if (password !== reenterPassword) {
+        if (regPassword !== reenterPassword) {
             alert('Passwords do not match.');
             return;
         }
 
-        alert('Registration successful!');
+        // Save registered user information (for demonstration purposes)
+        registeredUser = {
+            username: `${firstName} ${lastName}`,
+            password: regPassword
+        };
+
+        // Assuming registration is successful, close modal
         $('#registerModal').modal('hide');
         $('#loginModal').modal('show');
     });
 
-    $('#loginBtn').click(function() {
-        var username = $('#username').val();
-        var password = $('#password').val();
+    // Event listener for Login form submission
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
+        // Basic validation
         if (username === '' || password === '') {
             alert('Please fill in all fields.');
             return;
         }
 
-        alert('Login successful!');
-        $('#loginModal').modal('hide');
-        $('#loginButtonContainer').hide();
-        $('#imageAndUsername').show();
-        $('#loggedInUsername').text(username);
+        // Check if the registered user exists and the credentials match
+        if (registeredUser === null) {
+            alert('No registered user found. Please register first.');
+        } else if (username !== registeredUser.username || password !== registeredUser.password) {
+            alert('Incorrect username or password!');
+        } else {
+            alert('Login successful!');
+            $('#loginModal').modal('hide');
+            loginButtonContainer.style.display = 'none';
+            imageAndUsername.style.display = 'block';
+            loggedInUsername.textContent = username;
+            userIcon.style.display = 'block'; // Assuming you have an element with id 'userIcon' for the user icon
+        }
     });
 
-    $('#logoutButton').click(function() {
-        $('#imageAndUsername').hide();
-        $('#loginButtonContainer').show();
-        $('#username').val('');
-        $('#password').val('');
+    // Event listener for Logout button
+    logoutButton.addEventListener('click', function() {
+        imageAndUsername.style.display = 'none';
+        loginButtonContainer.style.display = 'block';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        userIcon.style.display = 'none'; // Assuming you have an element with id 'userIcon' for the user icon
     });
-
-    fetchQuotes();
 });
