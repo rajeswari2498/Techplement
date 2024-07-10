@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="{% static 'quotes/styles.css' %}">
-    <script src="{% static 'quotes/quotes.js' %}"></script>
-    <script>
-        const quotesJsonUrl = "{% static 'quotes/quotes.json' %}";
-    </script>
+    <script src="{% static 'quotes/quotes.js' %}" data-quotes-url="{% static 'quotes/quotes.json' %}"></script>
 </head>
 <body>
 
