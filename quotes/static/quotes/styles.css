@@ -1,0 +1,159 @@
+/* styles.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h3 {
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.ml-3 {
+    margin-left: 1rem !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+/* Login and Register Button Styles */
+#loginButtonContainer button {
+    margin-right: 10px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    width: 40px;  /* Ensure the width is the same for all buttons */
+    height: 40px; /* Ensure the height is the same for all buttons */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;  /* Keep the rounded style */
+}
+
+.rounded-button {
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Modal Styles */
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.close {
+    color: white;
+}
+
+/* Search Bar Styles */
+.form-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-inline input {
+    width: 300px;
+}
+
+/* Quote Display Styles */
+.card {
+    margin-top: 20px;
+}
+
+.card-body {
+    position: relative;
+    padding: 20px;
+}
+
+.blockquote {
+    margin: 0;
+}
+
+.blockquote-footer {
+    margin-top: 10px;
+    font-size: 0.875em;
+    color: #6c757d;
+}
+
+/* Image and Username Display Styles */
+#imageAndUsername {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#imageAndUsername img {
+    border-radius: 50%;
+}
+
+#imageAndUsername h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* Button Styles */
+#new-quote {
+    margin-top: 15px;
+}
+
+#volume-up, #twitter-share, #copy {
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#volume-up:hover, #twitter-share:hover, #copy:hover {
+    background-color: #0056b3;
+}
+
+#logoutButton {
+    margin-left: 10px;
+}
+
+.btn-icon svg {
+    width: 100%;  /* Make the SVG take the full width of the button */
+    height: 100%; /* Make the SVG take the full height of the button */
+}
