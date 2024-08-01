@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+
     // Function to generate a random quote
     function generateRandomQuote() {
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);

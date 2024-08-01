@@ -137,6 +137,7 @@ h1, h3 {
 /* Button Styles */
 #new-quote {
     margin-top: 15px;
+    margin-left: 300px;
 }
 
 #volume-up, #twitter-share, #copy {

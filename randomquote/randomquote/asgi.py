@@ -1,5 +1,5 @@
 """
-ASGI config for randomquotes project.
+ASGI config for randomquote project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'randomquotes.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'randomquote.settings')
 
 application = get_asgi_application()
